@@ -6,39 +6,53 @@ from app.data.incidents import insert_incident, get_all_incidents
 def main():
     print("=" * 60)
     print("Week 8: Database Demo")
-    print("=" * 60)
-    
-    # 1. Setup database
+    print("=")
+
+    # 1. Setup Database
     conn = connect_database()
     create_all_tables(conn)
-    conn.close()
-    
-    # 2. Migrate users
+
+    #2. Migrate users
     migrate_users_from_file(conn)
-    
-    # 3. Test authentication
-    success, msg = register_user("alice", "SecurePass123!", "analyst")
+
+    #3. Test authentication
+    success,msg = register_user("alice", "SecurePass123!!", "analyst")
+    if success:
+        print(f" Registration SUCCESS: {msg}")
+    else: 
+        print(f" Registration FAILED: {msg}")
     print(msg)
-    success, msg = login_user("alice", "SecurePass123!")
+
+    success,msg = login_user("alice", "SecurePass123!!")
+    if success:
+        print(f" Login SUCCESS: {msg}")
+    else: 
+        print(f" Login FAILED: {msg}")
     print(msg)
-    
-    # 4. Test CRUD
+
+    #4. Test CRUD
     incident_id = insert_incident(
-        "2024-11-05",
-        "Phishing",
-        "High",
-        "Open",
-        "Suspicious email detected",
-        "alice"
+    conn,
+    "2024-11-05",
+    "Phishing",
+    "High",
+    "Open",
+    "Suspicious email detected",
+    "alice"
     )
     print(f"Created incident #{incident_id}")
-    
-    # 5. Query data
-    df = get_all_incidents()
+    #5. Query data
+    df = get_all_incidents(conn)
     print(f"Total incidents: {len(df)}")
-if __name__ == "__main__":
- main()
+    conn.close()
 
+
+if __name__=="__main__":
+    main()
+
+
+from pathlib import Path
+DB_PATH = Path("app/data/cyber_incidents.db")
 def setup_database_complete():
     """
     Complete database setup:
@@ -59,30 +73,25 @@ def setup_database_complete():
     
     # Step 2: Create tables
     print("\n[2/5] Creating database tables...")
-    conn = connect_database()
+    from app.data.schema import create_all_tables
     create_all_tables(conn)
     
     # Step 3: Migrate users
-    print("\n[3/5] Migrating users from users.txt...") 
+    print("\n[3/5] Migrating users from users.txt...")
     user_count = migrate_users_from_file(conn)
     print(f"       Migrated {user_count} users")
     
     # Step 4: Load CSV data
     print("\n[4/5] Loading CSV data...")
     from app.services.user_service import load_csv_to_table
-    total_rows = load_csv_to_table(conn)
+    total_rows = load_csv_to_table(conn, 'DATA/cyber_incidents.csv', 'incidents')
+    print(f" Loaded {total_rows} rows.")
     
     # Step 5: Verify
     print("\n[5/5] Verifying database setup...")
     cursor = conn.cursor()
     
     # Count rows in each table
-    from pathlib import Path
-    DATA_DIR = Path("DATA")
-    cyber_incidents_csv = DATA_DIR/ "cyber_incidents.csv"
-    datasets_metadata_csv = DATA_DIR / "datasets_metadata.csv"
-    it_tickets_csv = DATA_DIR / "it_tickets.csv"
-
     tables = ['users', 'cyber_incidents', 'datasets_metadata', 'it_tickets']
     print("\n Database Summary:")
     print(f"{'Table':<25} {'Row Count':<15}")
@@ -94,9 +103,7 @@ def setup_database_complete():
         print(f"{table:<25} {count:<15}")
     
     conn.close()
-
-    DB_PATH = Path("DATA") / "intelligence_platform.db"
-    from pathlib import Path
+    
     print("\n" + "="*60)
     print(" DATABASE SETUP COMPLETE!")
     print("="*60)
@@ -105,72 +112,3 @@ def setup_database_complete():
 
 # Run the complete setup
 setup_database_complete()
-
-def run_comprehensive_tests():
-    """
-    Run comprehensive tests on your database.
-    """
-    print("\n" + "="*60)
-    print("🧪 RUNNING COMPREHENSIVE TESTS")
-    print("="*60)
-    
-    conn = connect_database()
-    
-    # Test 1: Authentication
-    print("\n[TEST 1] Authentication")
-    success, msg = register_user("test_user", "TestPass123!", "user")
-    print(f"  Register: {'✅' if success else '❌'} {msg}")
-    
-    success, msg = login_user("test_user", "TestPass123!")
-    print(f"  Login:    {'✅' if success else '❌'} {msg}")
-    
-    # Test 2: CRUD Operations
-    print("\n[TEST 2] CRUD Operations")
-    
-    # Create
-    from app.data.incidents import update_incident_status, delete_incident, get_incidents_by_type_count, get_high_severity_by_status
-    test_id = insert_incident(
-        conn,
-        "2024-11-05",
-        "Test Incident",
-        "Low",
-        "Open",
-        "This is a test incident",
-        "test_user"
-    )
-    print(f"  Create: ✅ Incident #{test_id} created")
-    
-    # Read
-    import pandas as pd
-    df = pd.read_sql_query(
-        "SELECT * FROM cyber_incidents WHERE id = ?",
-        conn,
-        params=(test_id,)
-    )
-    print(f"  Read:    Found incident #{test_id}")
-    
-    # Update
-    update_incident_status(conn, test_id, "Resolved")
-    print(f"  Update:  Status updated")
-    
-    # Delete
-    delete_incident(conn, test_id)
-    print(f"  Delete:  Incident deleted")
-    
-    # Test 3: Analytical Queries
-    print("\n[TEST 3] Analytical Queries")
-    
-    df_by_type = get_incidents_by_type_count(conn)
-    print(f"  By Type:     Found {len(df_by_type)} incident types")
-    
-    df_high = get_high_severity_by_status(conn)
-    print(f"  High Severity: Found {len(df_high)} status categories")
-    
-    conn.close()
-    
-    print("\n" + "="*60)
-    print("✅ ALL TESTS PASSED!")
-    print("="*60)
-
-# Run tests
-run_comprehensive_tests()
