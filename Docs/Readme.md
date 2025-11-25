@@ -19,7 +19,7 @@
 
 ## Project description
  This lab transitions the CST1510 Multi-Domain Intelligence platform project from simple file-based storage(Week 7's users.txt) to a robust and professional SQLite database.
- The main focus is the creation of a secure and scalable data management layer capable of handling data across three distinct domains: Cyber Incidents, Datasets Metadata, and IT Tickets. All project data is centralized with intelligence_platform.db, which also supports secure user authentication.
+ The main focus is the creation of a secure and scalable data management layer capable of handling data across three distinct domains: Cyber Incidents, Datasets Metadata, and IT Tickets. All project data is centralized with 'intelligence_platform.db', which also supports secure user authentication.
 
 ## Features
  Data Migration: Moves users from text file to database with password security preserved.
@@ -30,7 +30,7 @@
 
  Full CRUD  functionality: Implements Create, Read, Update, and Delete operations for all data entities.
 
- Security: Uses parameterized SQQL queries for all database operations, preventing SQL injection.
+ Security: Uses parameterized SQL queries for all database operations, preventing SQL injection.
  
  Authentication: Integrates bcrypt password hashing for secure logins and registration.
 
@@ -40,13 +40,13 @@
  Programming Language: Python (with sqlite3, pandas, and bcrypt)
 
  Architecture: 
-  -Seperate scripts for connecction, schema, and table CRUD functions
-  -Clear seperation of business logic and data manipulation.
+ -Seperate scripts for connecction, schema, and table CRUD functions
+ -Clear seperation of business logic and data manipulation.
 
  Schema Overview: 
-  -users: handles authentic data
-  -cyber_incidents: Security event records linked to users
-  -datasets_metadata: Stores info on available datasets
-  -it_tickets: Tracks IT service requests
+ -users: handles authentic data
+ -cyber_incidents: Security event records linked to users
+ -datasets_metadata: Stores info on available datasets
+ -it_tickets: Tracks IT service requests
 
  This setup forms the secure, efficient foundation for the Multi-Domain Intelligence Platform, enabling scalable analytics and future web integration.
