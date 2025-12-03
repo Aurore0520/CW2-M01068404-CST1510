@@ -83,31 +83,26 @@ def login_user( username, password):
 def migrate_users_from_file(conn,filepath='DATA/users.txt'):
     """Migrate users from text file to database."""
     #...migration logic...
-    file_path_obj = Path(filepath)
-    if not file_path_obj.exists():
-        print(f"⚠️  File not found: {filepath}")
-        print("   No users to migrate.")
-        return
-    cursor = conn.cursor()
     migrated_count = 0
-    
     with open(filepath, 'r') as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
             
-            # Parse line: username,password_hash
+            # Parse line: username,password_hash, role
             parts = line.split(',')
             if len(parts) >= 2:
                 username = parts[0]
                 password_hash = parts[1]
+                role = parts[2] if len(parts) >= 3 else "user"
                 
                 # Insert user (ignore if already exists)
-                try:
+                try: 
+                    cursor = conn.cursor()
                     cursor.execute(
                         "INSERT OR IGNORE INTO users (username, password_hash, role) VALUES (?, ?, ?)",
-                        (username, password_hash, 'user')
+                        (username, password_hash, role)
                     )
                     if cursor.rowcount > 0:
                         migrated_count += 1
@@ -115,7 +110,9 @@ def migrate_users_from_file(conn,filepath='DATA/users.txt'):
                     print(f"Error migrating user {username}: {e}")
     
     conn.commit()
-    print(f"✅ Migrated {migrated_count} users from {file_path_obj.name}")
+    print(f"\nSuccessfully migrated {migrated_count} users. ")
+
+
 
 def load_csv_to_table(conn, csv_path, table_name):
     """
@@ -132,26 +129,31 @@ def load_csv_to_table(conn, csv_path, table_name):
         int: Number of rows loaded
     """
     # TODO: Check if CSV file exists
-    csv_path = Path(csv_path)
-
-    if not csv_path.exists():
-        print(f"Error: CSV file not found at {csv_path}")
+    if not Path(csv_path).exists():
+        print(f"\nError: CSV file not found at {csv_path}")
         return 0
 
     # TODO: Read CSV using pandas.read_csv()
     try:
-       df = pd.read_csv(csv_path)
+       df  = pd.read_csv(csv_path)
+       
+       if "id" in df.columns:
+          df = df.drop(columns=["id"])
+       
 
     # TODO: Use df.to_sql() to insert data
     # Parameters: name=table_name, con=conn, if_exists='append', index=False
-       df.to_sql(name=table_name, con=conn, if_exists='append', index=False)
+          df.to_sql(name=table_name, con=conn, if_exists='append', index=False)
 
     # TODO: Print success message and return row count
-       row_count = len(df)
-       print(f"Successfully loaded {row_count} rows into '{table_name}'. ")
-       return row_count
+          row_count = len(df)
+          print(f"\nSuccessfully loaded {row_count} rows into '{table_name}'. ")
+          return row_count
+    
     except Exception as e:
-        print(f"Error loading CSV into table: {e}.")
+        print(f"\nError loading CSV into table: {e}.")
+        if 'df' in locals():
+            print(f"\nCSV Columns found: {df.columns.tolist()}")
         return 0
     
 pass
@@ -169,6 +171,7 @@ if __name__ == "__main__":
    print(" Users in database:")
    print(f"{'ID':<5} {'Username':<15} {'Role':<10}")
    print("-" * 35)
+
    for user in users:
      print(f"{user[0]:<5} {user[1]:<15} {user[2]:<10}")
 

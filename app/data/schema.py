@@ -39,14 +39,14 @@ def create_cyber_incidents_table(conn):
     cursor = conn.cursor()
 
     # TODO: Write CREATE TABLE IF NOT EXISTS SQL statement
-    # Follow the pattern from create_users_table()
+    # Follow the pattern from create_users_table()          
     create_table_sql = """
     CREATE TABLE IF NOT EXISTS cyber_incidents (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT NOT NULL,
-        incident_type TEXT NOT NULL,
+        date TEXT,
+        incident_type TEXT,
         severity TEXT,
-        status TEXT NOT NULL,
+        status TEXT,
         description TEXT,
         reported_by TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -58,7 +58,7 @@ def create_cyber_incidents_table(conn):
     # TODO: Commit the changes
     conn.commit()
     # TODO: Print success message
-    print(" Cyber Incidents table created successfully!")
+    print("\nCyber Incidents table created successfully!")
     pass
 
 
@@ -69,7 +69,7 @@ def create_datasets_metadata_table(conn):
     TODO: Implement this function following the users table example.
     
     Required columns:
-    - id: INTEGER PRIMARY KEY AUTOINCREMENT
+    - dataset_id: INTEGER PRIMARY KEY AUTOINCREMENT
     - dataset_name: TEXT NOT NULL
     - category: TEXT (e.g., 'Threat Intelligence', 'Network Logs')
     - source: TEXT (origin of the dataset)
@@ -80,9 +80,9 @@ def create_datasets_metadata_table(conn):
     """
     # TODO: Implement following the users table pattern
     create_table_sql = """
-CREATE TABLE IF NOT EXISTS datasets_metadata (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    dataset_name TEXT NOT NULL,
+    CREATE TABLE IF NOT EXISTS datasets_metadata (
+    dataset_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dataset_name TEXT ,
     category TEXT,
     source TEXT,
     last_updated TEXT,
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS datasets_metadata (
     cursor = conn.cursor()
     cursor.execute(create_table_sql)
     conn.commit()
-    print("Datasets metadata table has been created successfully!")
+    print("\nDatasets metadata table has been created successfully!")
     pass
 
 
@@ -120,13 +120,12 @@ def create_it_tickets_table(conn):
     """
     # TODO: Implement following the users table pattern
     create_table_sql = """
-CREATE TABLE IF NOT EXISTS it_tickets (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    ticket_id TEXT UNIQUE NOT NULL,
+    CREATE TABLE IF NOT EXISTS it_tickets (
+    ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
     priority TEXT,
     status TEXT,
     category TEXT,
-    subject TEXT NOT NULL,
+    subject TEXT,
     description TEXT,
     created_date TEXT,
     resolved_date TEXT,
@@ -137,6 +136,6 @@ CREATE TABLE IF NOT EXISTS it_tickets (
     cursor = conn.cursor()
     cursor.execute(create_table_sql)
     conn.commit()
-    print("IT Tickets table has been created successfully!")
+    print("\nIT Tickets table has been created successfully!")
     pass
 

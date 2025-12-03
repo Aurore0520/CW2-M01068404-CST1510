@@ -1,1 +1,3 @@
 Aurore,$2b$12$a3F9pC9Za6w6S0O2Elma4O3LAdwNijhomIq9aLWikIUKAm.ZM1A/m
+Alice,$2b$12$bUEGmCO9xe5TlOJeY.8vq.YgHO0vaeyLClaVzPu1oAzpf0Osrnh/O
+Bob,$2b$12$DWN6qxeH1arBDqWCtyzt3.T/DFdS7hYxkYAEKyvCxD2qTqqiuyazG
