@@ -50,3 +50,49 @@
  -it_tickets: Tracks IT service requests
 
  This setup forms the secure, efficient foundation for the Multi-Domain Intelligence Platform, enabling scalable analytics and future web integration.
+
+ # Week 9: Web Interface, MVC and Visualization
+ 
+ ## Project description 
+ This project is a role-based data intelligence platform developed using Python, SQLite, and Streamlit. It consists of features from previous weeks(week 7 and week 8), including user authentication and dataset metadata file, to create a secure and interactive environment to manage data. The project supports several user roles, such as, data_scientist, cyber_admin, and it_admin, each contributing datasets and insights to the platform.
+
+## Features
+User Authentication: 
+Secure login an registration system.
+Passwords are being hashed using Bcrypt
+
+Database Integration:
+Structures schema with tables for: user, datasets_metadata, cyber_incidents, and it_tickets
+Automatic table creation via schema.py
+
+Dataset Metadata:
+Upload and store dataset metadata
+CSV aligned with database schema
+Validation to prevent misaligned columns
+
+Interactive Dashboard
+Sidebar navigation with filters
+Metrics display
+Bar chart visualization of role distribution
+Logout button for session management
+
+Error handling and Debugging
+
+## Technical Implementation
+Streamlit: Web framework for building the interactive dashboard, handling user input, and outputting tables/charts.
+User registration: new users are stored in the users table with username, password_hash, role, and created_at.
+login_user() queries the user table, checks hashed passwords, and returns the user's role for access control.
+CSV Integration:
+datasets_metadata.csv took in via pandas.read_csv()
+
+Dashboard & Visualization
+Streamlit UI:
+sidebar navigation(Dashboard, filters, logout button)
+Metrics displayed with st.metric()
+
+Tables:
+st.dataframe() used to render dataset metadata and role counts
+
+Charts:
+Role distribution visualized with Altair bar charts
+
