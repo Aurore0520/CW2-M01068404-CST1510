@@ -80,8 +80,11 @@ Error handling and Debugging
 
 ## Technical Implementation
 Streamlit: Web framework for building the interactive dashboard, handling user input, and outputting tables/charts.
+
 User registration: new users are stored in the users table with username, password_hash, role, and created_at.
+
 login_user() queries the user table, checks hashed passwords, and returns the user's role for access control.
+
 CSV Integration:
 datasets_metadata.csv took in via pandas.read_csv()
 
