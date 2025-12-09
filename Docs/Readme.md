@@ -96,3 +96,19 @@
  Charts:
  Role distribution visualized with Altair bar charts
 
+# Week 10: Final Dashboards and API Integration
+## Description 
+In this lab, I have learnt how to integrate Google Gemini API into my Multi-Domain-Intelligence Platform. It provides an advanced analytical and advisory capabilities across the three domains: Cybersecurity, Data Science, and IT operations. 
+
+## Features 
+This prjects demonstrates the implementation of these critical features: 
+Gemini API key- Authentication required to access Google's large language models.
+client.models.generate_content = The core function for sending user prompts and receiving AI responses.
+
+# Technical Implementation
+The implementation details focuses on using Python and the google-genai library within the Streamlit framework.
+
+1. API Key setup: I have obtain the key from Google AI Studio. The key is securely stored in a file called .streamlit/secrets.toml under the key name of 'api_key'.
+
+2. The whole conversation history is stored as a list of dictionaries in Streamlit's persistent dictionary object, st.session_state.messages. This prevents the history from being reset when Streamlit run again.
+
