@@ -1,6 +1,7 @@
+
 import pandas as pd
 from pathlib import Path
-from app.data.db import connect_database
+from my_app.app.data.db import connect_database
 
 
 def insert_it_tickets(priority,status, category, assigned_to, created_at):

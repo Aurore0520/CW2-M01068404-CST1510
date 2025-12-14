@@ -1,4 +1,5 @@
-from app.data.db import connect_database
+
+from my_app.app.data.db import connect_database
 def get_user_by_username(conn, username):
     """Retrieve user by username"""
     cursor = conn.cursor()
@@ -17,5 +18,3 @@ def insert_user(conn, username, password_hash, role='user'):
         "INSERT INTO users (username, password_hash, role) VALUES (?,?,?)",
         (username, password_hash, role)
     )
-    conn.commit()
-    

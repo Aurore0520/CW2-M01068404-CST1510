@@ -1,3 +1,5 @@
 app/lib/
 app/scripts/
 app/pyvenv.cfg
+.streamlit/secrets.toml
+c:\Users\Chell\OneDrive\Desktop\CW2-M01068404-CST1510\.streamlit

@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
-from app.data.db import connect_database
+from my_app.app.data.db import connect_database
+
 
 def insert_datasets_metadata(dataset_id, name, rows, columns, uploaded_by, upload_date):
     """Insert new dataset record."""

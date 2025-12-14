@@ -1,7 +1,10 @@
 from google import genai
 from google.genai import types, Client
 import streamlit as st
-from services.AI_assistant import AIAssistant
+from services.ai_assistant import AIAssistant
+
+st.title("Data Science Assistant")
+st.subheader("Powered by Gemini")
 
 system_prompt = """You are a data science expert assistant. 
             -Help with analysis, visualization, and statistical insights.

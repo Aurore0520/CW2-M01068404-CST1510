@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from app.data.datasets_metadata import get_all_datasets_metadata, insert_datasets_metadata
-from app.data.db import connect_database
+from database.db import connect_database
 
 
 st.set_page_config(page_title="Intelligence Dashboard",page_icon="📊", layout="wide")

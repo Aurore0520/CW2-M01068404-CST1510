@@ -112,3 +112,4 @@ The implementation details focuses on using Python and the google-genai library 
 
 2. The whole conversation history is stored as a list of dictionaries in Streamlit's persistent dictionary object, st.session_state.messages. This prevents the history from being reset when Streamlit run again.
 
+## Week 11: Object-Oriented Programming (OOP)
